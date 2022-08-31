@@ -1,0 +1,19 @@
+browser-server HTTP GET exampleappspa
+server--browser HTML-code
+browser-server HTTP GET exampleappmain.css
+server--browser main.css
+browser-server HTTP GET spa.js
+server--browser spa.js
+
+note over browser
+browser starts executing spa.js
+that requests JSON data from server 
+end note
+
+browser-server HTTP GET exampleappdata.json
+server--browser [{ content HTML is easy, date 2019-05-23 }, ...]
+
+note over browser
+browser executes the onreadystatechange 
+that unpack JSON file and render notes
+end note

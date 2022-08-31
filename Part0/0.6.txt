@@ -1,0 +1,14 @@
+note over browser:
+user write something in form input
+and then clicked save button
+end note
+browser->spa.js: data from input
+
+note over spa.js
+creating new object from input
+object added to data.json
+end note
+
+spa.js-->browser: render new data
+spa.js->server: HTTP POST /examleapp/new_note_spa
+server-->browser: status 201 {message: "note created"}
