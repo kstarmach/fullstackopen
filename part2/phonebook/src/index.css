@@ -1,0 +1,15 @@
+.success {
+    background-color: lightgreen;
+    border-color: green;
+    border-style: solid;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.danger {
+    background-color: lightcoral;
+    border-color: red;
+    border-style: solid;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
