@@ -84,13 +84,10 @@ const App = () => {
       })
       .catch(exception => {
         handleNotification(exception.response.data.error, 'error')
-
       })
   }
 
   const updateBlog = (updatedBlog) => {
-
-
     blogService
       .update(updatedBlog)
       .then(returnedBlog => {
@@ -98,8 +95,21 @@ const App = () => {
       })
       .catch(exception => {
         handleNotification(exception.response.data.error, 'error')
-
       })
+  }
+
+  const removeBlog = (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      blogService
+        .remove(blog.id)
+        .then(result => {
+          setBlogs(blogs.filter(obj => obj.id !== blog.id))
+          handleNotification(`blog successfully removed`, 'success')
+        })
+        .catch(exception => {
+          handleNotification(exception.response.data.error, 'error')
+        })
+    }
   }
 
   return (
@@ -126,12 +136,13 @@ const App = () => {
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm createBlog={addBlog} />
           </Togglable>
-          {blogs.map(blog =>
+          {blogs.sort((b1, b2) => b2.likes - b1.likes).map(blog =>
 
             <Blog
               key={blog.id}
               blog={blog}
               updateBlog={updateBlog}
+              removeBlog={removeBlog}
             />
 
           )}

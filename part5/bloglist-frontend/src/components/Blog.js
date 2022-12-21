@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, removeBlog }) => {
   const [viewDetails, setViewDetails] = useState(false)
 
   const blogStyle = {
@@ -21,6 +21,7 @@ const Blog = ({ blog, updateBlog }) => {
             key={blog.id}
             blog={blog}
             updateBlog={updateBlog}
+            removeBlog={removeBlog}
           />
           <button onClick={() => setViewDetails(false)}>close</button>
         </div>
@@ -30,7 +31,7 @@ const Blog = ({ blog, updateBlog }) => {
   )
 }
 
-const BlogDetails = ({ blog, updateBlog }) => {
+const BlogDetails = ({ blog, updateBlog, removeBlog }) => {
 
   const increaseLike = () => {
     blog.likes += 1
@@ -42,6 +43,10 @@ const BlogDetails = ({ blog, updateBlog }) => {
       <div>{blog.url}</div>
       <div>{blog.likes} <button onClick={() => increaseLike()}>like</button></div>
       <div>{blog.author}</div>
+      {blog.user.username === JSON.parse(window.localStorage.getItem('loggedBlogappUser')).username ?
+        <button onClick={() => removeBlog(blog)}>remove</button>
+        : ''}
+
     </div>
   )
 }
