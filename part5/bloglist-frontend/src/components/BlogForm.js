@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const BlogForm = ({ createBlog }) => {
     const [title, setTitle] = useState('')
@@ -12,7 +12,6 @@ const BlogForm = ({ createBlog }) => {
             author: author,
             url: url
         })
-
 
         setAuthor('')
         setTitle('')
@@ -56,4 +55,4 @@ const BlogForm = ({ createBlog }) => {
     )
 }
 
-export default BlogForm   
+export default BlogForm

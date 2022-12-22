@@ -59,7 +59,9 @@ const App = () => {
 
       handleNotification('successfully log-in', 'success')
     } catch (exception) {
-      handleNotification(exception.response.data.error, 'error')
+      console.log(exception);
+      //handleNotification(exception.response.data.error, 'error')
+      handleNotification('something went wrong', 'error')
     }
   }
 
