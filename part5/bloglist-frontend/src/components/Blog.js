@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const Blog = ({ blog, updateBlog, removeBlog }) => {
+const Blog = ({ blog, increaseLike, removeBlog }) => {
     const [viewDetails, setViewDetails] = useState(false)
 
     const blogStyle = {
@@ -11,14 +11,15 @@ const Blog = ({ blog, updateBlog, removeBlog }) => {
     }
     return (
         <div style={blogStyle}>
-            {blog.title} {blog.author}
+            <div>{blog.title} </div>
+            <div>{blog.author}</div>
 
             {viewDetails ?
                 <div>
                     <BlogDetails
                         key={blog.id}
                         blog={blog}
-                        updateBlog={updateBlog}
+                        increaseLike={increaseLike}
                         removeBlog={removeBlog}
                     />
                     <button onClick={() => setViewDetails(false)}>close</button>
@@ -29,22 +30,17 @@ const Blog = ({ blog, updateBlog, removeBlog }) => {
     )
 }
 
-const BlogDetails = ({ blog, updateBlog, removeBlog }) => {
-
-    const increaseLike = () => {
-        blog.likes += 1
-        updateBlog(blog)
-    }
+const BlogDetails = ({ blog, increaseLike, removeBlog }) => {
 
     return (
         <div>
             <div>{blog.url}</div>
-            <div>{blog.likes} <button onClick={() => increaseLike()}>like</button></div>
+            <div>{blog.likes} <button onClick={() => increaseLike(blog)}>like</button></div>
             <div>{blog.author}</div>
-            {blog.user.username === JSON.parse(window.localStorage.getItem('loggedBlogappUser')).username ?
-                <button onClick={() => removeBlog(blog)}>remove</button>
-                : ''}
+            {/* {blog.user.username === JSON.parse(window.localStorage.getItem('loggedBlogappUser')).username ?
+                : ''} */}
 
+            <button onClick={() => removeBlog(blog)}>remove</button>
         </div>
     )
 }
