@@ -1,20 +1,20 @@
-import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
-import LoginForm from './components/LoginForm'
-import Togglable from './components/Togglable'
-import Notifiaction from './components/Notification'
+import { useState, useEffect, useRef } from "react"
+import Blog from "./components/Blog"
+import BlogForm from "./components/BlogForm"
+import LoginForm from "./components/LoginForm"
+import Togglable from "./components/Togglable"
+import Notifiaction from "./components/Notification"
 
-import blogService from './services/blogs'
-import loginServices from './services/login'
+import blogService from "./services/blogs"
+import loginServices from "./services/login"
 
 
 const App = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [blogs, setBlogs] = useState([])
     const [user, setUser] = useState(null)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -23,7 +23,7 @@ const App = () => {
     }, [])
 
     useEffect(() => {
-        const loggedUserJson = window.localStorage.getItem('loggedBlogappUser')
+        const loggedUserJson = window.localStorage.getItem("loggedBlogappUser")
         if (loggedUserJson) {
             const user = JSON.parse(loggedUserJson)
             setUser(user)
@@ -50,25 +50,25 @@ const App = () => {
                 username, password
             })
             window.localStorage.setItem(
-                'loggedBlogappUser', JSON.stringify(user)
+                "loggedBlogappUser", JSON.stringify(user)
             )
             blogService.setToken(user.token)
             setUser(user)
-            setUsername('')
-            setPassword('')
+            setUsername("")
+            setPassword("")
 
-            handleNotification('successfully log-in', 'success')
+            handleNotification("successfully log-in", "success")
         } catch (exception) {
             console.log(exception)
-            //handleNotification(exception.response.data.error, 'error')
-            handleNotification('something went wrong', 'error')
+            handleNotification(exception.response.data.error, "error")
+            //handleNotification("wrong credentials", "error")
         }
     }
 
     const handleLogout = () => {
         setUser(null)
         window.localStorage.clear()
-        handleNotification('successfully log-out', 'success')
+        handleNotification("successfully log-out", "success")
 
     }
 
@@ -82,10 +82,10 @@ const App = () => {
                 setBlogs(blogs.concat(returnedBlog))
 
 
-                handleNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 'success')
+                handleNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, "success")
             })
             .catch(exception => {
-                handleNotification(exception.response.data.error, 'error')
+                handleNotification(exception.response.data.error, "error")
             })
     }
 
@@ -96,7 +96,7 @@ const App = () => {
                 setBlogs(blogs.map(b => b.id !== updatedBlog.id ? b : updatedBlog))
             })
             .catch(exception => {
-                handleNotification(exception.response.data.error, 'error')
+                handleNotification(exception.response.data.error, "error")
             })
     }
 
@@ -111,10 +111,10 @@ const App = () => {
                 .remove(blog.id)
                 .then(() => {
                     setBlogs(blogs.filter(obj => obj.id !== blog.id))
-                    handleNotification('blog successfully removed', 'success')
+                    handleNotification("blog successfully removed", "success")
                 })
                 .catch(exception => {
-                    handleNotification(exception.response.data.error, 'error')
+                    handleNotification(exception.response.data.error, "error")
                 })
         }
     }
@@ -126,15 +126,15 @@ const App = () => {
                 message={errorMessage}
             />
             {user === null ?
-                <Togglable buttonLabel='login'>
-                    <LoginForm
-                        handleSubmit={handleLogin}
-                        handleUsernameChange={({ target }) => setUsername(target.value)}
-                        handlePasswordChange={({ target }) => setPassword(target.value)}
-                        username={username}
-                        password={password}
-                    />
-                </Togglable> :
+
+                <LoginForm
+                    handleSubmit={handleLogin}
+                    handleUsernameChange={({ target }) => setUsername(target.value)}
+                    handlePasswordChange={({ target }) => setPassword(target.value)}
+                    username={username}
+                    password={password}
+                />
+                :
                 <div>
                     <p>
                         {user.name} logged in
@@ -143,16 +143,18 @@ const App = () => {
                     <Togglable buttonLabel="create new blog" ref={blogFormRef}>
                         <BlogForm createBlog={addBlog} />
                     </Togglable>
-                    {blogs.sort((b1, b2) => b2.likes - b1.likes).map(blog =>
+                    <ul className="blogs">
+                        {blogs.sort((b1, b2) => b2.likes - b1.likes).map(blog =>
 
-                        <Blog
-                            key={blog.id}
-                            blog={blog}
-                            increaseLike={increaseLike}
-                            removeBlog={removeBlog}
-                        />
+                            <Blog
+                                key={blog.id}
+                                blog={blog}
+                                increaseLike={increaseLike}
+                                removeBlog={removeBlog}
+                            />
 
-                    )}
+                        )}
+                    </ul>
                 </div>
             }
         </div>

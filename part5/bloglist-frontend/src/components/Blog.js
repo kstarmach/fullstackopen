@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { useState } from "react"
 const Blog = ({ blog, increaseLike, removeBlog }) => {
     const [viewDetails, setViewDetails] = useState(false)
 
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
-        border: 'solid',
+        border: "solid",
         borderWidth: 1,
         marginBottom: 5
     }
     return (
-        <div style={blogStyle}>
+        <li style={blogStyle}>
             <div>{blog.title} </div>
             <div>{blog.author}</div>
 
@@ -26,7 +26,7 @@ const Blog = ({ blog, increaseLike, removeBlog }) => {
                 </div>
                 : <button onClick={() => setViewDetails(true)}>show</button>}
 
-        </div>
+        </li>
     )
 }
 

@@ -3,7 +3,7 @@ const Notifiaction = ({ message }) => {
         return null
     }
 
-    if (message.errorType === 'error') {
+    if (message.errorType === "error") {
         return (
             <div className='error'>
                 {message.message}
