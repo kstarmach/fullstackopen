@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import Blog from './components/Blog';
+import BlogList from './components/BlogList';
 import BlogForm from './components/BlogForm';
 import LoginForm from './components/LoginForm';
 import Togglable from './components/Togglable';
@@ -10,10 +10,11 @@ import loginServices from './services/login';
 
 import { newNotification } from './reducers/notificationReducer';
 import { useDispatch } from 'react-redux';
+import { initializeBlogs } from './reducers/blogReducer';
 
 const App = () => {
   //const [errorMessage, setErrorMessage] = useState(null);
-  const [blogs, setBlogs] = useState([]);
+  //const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,8 +22,12 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    dispatch(initializeBlogs());
   }, []);
+
+  //   useEffect(() => {
+  //     blogService.getAll().then((blogs) => setBlogs(blogs));
+  //   }, []);
 
   useEffect(() => {
     const loggedUserJson = window.localStorage.getItem('loggedBlogappUser');
@@ -89,80 +94,80 @@ const App = () => {
 
   const blogFormRef = useRef();
 
-  const addBlog = (newBlog) => {
-    blogFormRef.current.toggleVisibility();
-    blogService
-      .create(newBlog)
-      .then((returnedBlog) => {
-        setBlogs(blogs.concat(returnedBlog));
+  //   const addBlog = (newBlog) => {
+  //     blogFormRef.current.toggleVisibility();
+  //     blogService
+  //       .create(newBlog)
+  //       .then((returnedBlog) => {
+  //         setBlogs(blogs.concat(returnedBlog));
 
-        dispatch(
-          newNotification({
-            message: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
-            errorType: 'success',
-          })
-        );
-        //handleNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 'success');
-      })
-      .catch((exception) => {
-        dispatch(
-          newNotification({
-            message: exception.response.data.error,
-            errorType: 'error',
-          })
-        );
-        //handleNotification(exception.response.data.error, 'error');
-      });
-  };
+  //         dispatch(
+  //           newNotification({
+  //             message: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
+  //             errorType: 'success',
+  //           })
+  //         );
+  //         //handleNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 'success');
+  //       })
+  //       .catch((exception) => {
+  //         dispatch(
+  //           newNotification({
+  //             message: exception.response.data.error,
+  //             errorType: 'error',
+  //           })
+  //         );
+  //         //handleNotification(exception.response.data.error, 'error');
+  //       });
+  //   };
 
-  const updateBlog = (updatedBlog) => {
-    blogService
-      .update(updatedBlog)
-      .then(() => {
-        setBlogs(blogs.map((b) => (b.id !== updatedBlog.id ? b : updatedBlog)));
-      })
-      .catch((exception) => {
-        dispatch(
-          newNotification({
-            message: exception.response.data.error,
-            errorType: 'error',
-          })
-        );
-        //handleNotification(exception.response.data.error, 'error');
-      });
-  };
+  //   const updateBlog = (updatedBlog) => {
+  //     blogService
+  //       .update(updatedBlog)
+  //       .then(() => {
+  //         setBlogs(blogs.map((b) => (b.id !== updatedBlog.id ? b : updatedBlog)));
+  //       })
+  //       .catch((exception) => {
+  //         dispatch(
+  //           newNotification({
+  //             message: exception.response.data.error,
+  //             errorType: 'error',
+  //           })
+  //         );
+  //         //handleNotification(exception.response.data.error, 'error');
+  //       });
+  //   };
 
-  const increaseLike = (blog) => {
-    blog.likes += 1;
-    updateBlog(blog);
-  };
+  //   const increaseLike = (blog) => {
+  //     blog.likes += 1;
+  //     updateBlog(blog);
+  //   };
 
-  const removeBlog = (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      blogService
-        .remove(blog.id)
-        .then(() => {
-          setBlogs(blogs.filter((obj) => obj.id !== blog.id));
-          dispatch(
-            newNotification({
-              message: `blog successfully removed`,
-              errorType: 'success',
-            })
-          );
-          //handleNotification('blog successfully removed', 'success');
-        })
-        .catch((exception) => {
-          dispatch(
-            newNotification({
-              message: exception.response.data.error,
-              errorType: 'error',
-            })
-          );
+  //   const removeBlog = (blog) => {
+  //     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+  //       blogService
+  //         .remove(blog.id)
+  //         .then(() => {
+  //           setBlogs(blogs.filter((obj) => obj.id !== blog.id));
+  //           dispatch(
+  //             newNotification({
+  //               message: `blog successfully removed`,
+  //               errorType: 'success',
+  //             })
+  //           );
+  //           //handleNotification('blog successfully removed', 'success');
+  //         })
+  //         .catch((exception) => {
+  //           dispatch(
+  //             newNotification({
+  //               message: exception.response.data.error,
+  //               errorType: 'error',
+  //             })
+  //           );
 
-          //handleNotification(exception.response.data.error, 'error');
-        });
-    }
-  };
+  //           //handleNotification(exception.response.data.error, 'error');
+  //         });
+  //     }
+  //   };
 
   return (
     <div>
@@ -183,20 +188,16 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </p>
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-            <BlogForm createBlog={addBlog} />
+            <BlogForm />
           </Togglable>
-          <ul className="blogs">
+          {/* <ul className="blogs">
             {blogs
               .sort((b1, b2) => b2.likes - b1.likes)
               .map((blog) => (
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  increaseLike={increaseLike}
-                  removeBlog={removeBlog}
-                />
+                <Blog key={blog.id} blog={blog} increaseLike={increaseLike} removeBlog={removeBlog} />
               ))}
-          </ul>
+          </ul> */}
+          <BlogList />
         </div>
       )}
     </div>

@@ -1,50 +1,37 @@
-import { useState } from 'react';
-const Blog = ({ blog, increaseLike, removeBlog }) => {
-  const [viewDetails, setViewDetails] = useState(false);
+import { useSelector } from 'react-redux';
+const Blog = () => {
+  const blogs = useSelector((state) => state.blogs);
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  };
   return (
-    <li style={blogStyle}>
-      <div>{blog.title} </div>
-      <div>{blog.author}</div>
-
-      {viewDetails ? (
-        <div>
-          <BlogDetails
-            key={blog.id}
-            blog={blog}
-            increaseLike={increaseLike}
-            removeBlog={removeBlog}
-          />
-          <button onClick={() => setViewDetails(false)}>close</button>
-        </div>
-      ) : (
-        <button onClick={() => setViewDetails(true)}>show</button>
-      )}
-    </li>
+    <ul>
+      {blogs.map((blog) => (
+        <li key={blog.id}>
+          <div>{blog.title} </div>
+          <div>{blog.author}</div>
+          {/* <div>
+              <BlogDetails key={blog.id} blog={blog} />
+            </div> */}
+        </li>
+      ))}
+    </ul>
   );
 };
 
-const BlogDetails = ({ blog, increaseLike, removeBlog }) => {
-  return (
-    <div>
-      <div>{blog.url}</div>
-      <div>
-        {blog.likes} <button onClick={() => increaseLike(blog)}>like</button>
-      </div>
-      <div>{blog.author}</div>
-      {/* {blog.user.username === JSON.parse(window.localStorage.getItem('loggedBlogappUser')).username ?
-                : ''} */}
+// const BlogDetails = ({ blog }) => {
+//   console.log(blog);
+//   return (
+//     <div>
+//       <div>{blog.url}</div>
+//       <div>
+//         {/* {blog.likes} <button onClick={() => increaseLike(blog)}>like</button> */}
+//       </div>
+//       <div>{blog.author}</div>
+//       {/* {blog.user.username === JSON.parse(window.localStorage.getItem('loggedBlogappUser')).username ?
+//                 : ''} */}
 
-      <button onClick={() => removeBlog(blog)}>remove</button>
-    </div>
-  );
-};
+//       {/* <button onClick={() => removeBlog(blog)}>remove</button> */}
+//     </div>
+//   );
+// };
 
 export default Blog;

@@ -1,21 +1,27 @@
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useField } from '../hooks';
+import { createBlog } from '../reducers/blogReducer';
 
-const BlogForm = ({ createBlog }) => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+const BlogForm = () => {
+  // const [title, setTitle] = useState('');
+  // const [author, setAuthor] = useState('');
+  // const [url, setUrl] = useState('');
+  const title = useField('text');
+  const author = useField('text');
+  const url = useField('text');
+
+  const dispatch = useDispatch();
 
   const addBlog = (event) => {
     event.preventDefault();
-    createBlog({
-      title: title,
-      author: author,
-      url: url,
-    });
 
-    setAuthor('');
-    setTitle('');
-    setUrl('');
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value,
+    };
+
+    dispatch(createBlog(newBlog));
   };
 
   return (
@@ -24,36 +30,15 @@ const BlogForm = ({ createBlog }) => {
       <form onSubmit={addBlog}>
         <div>
           title:
-          <input
-            type="text"
-            value={title}
-            name="Title"
-            id="title"
-            placeholder="Title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
+          <input {...title} />
         </div>
         <div>
           author:
-          <input
-            type="text"
-            value={author}
-            name="Author"
-            id="author"
-            placeholder="Author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+          <input {...author} />
         </div>
         <div>
           url:
-          <input
-            type="text"
-            value={url}
-            name="Url"
-            id="url"
-            placeholder="Url"
-            onChange={({ target }) => setUrl(target.value)}
-          />
+          <input {...url} />
         </div>
         <button type="submit" id="create_new_blog">
           create
