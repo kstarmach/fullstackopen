@@ -8,12 +8,17 @@ import Notifiaction from './components/Notification';
 import blogService from './services/blogs';
 import loginServices from './services/login';
 
+import { newNotification } from './reducers/notificationReducer';
+import { useDispatch } from 'react-redux';
+
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
+  //const [errorMessage, setErrorMessage] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -28,13 +33,13 @@ const App = () => {
     }
   }, []);
 
-  const handleNotification = (message, errorType) => {
-    setErrorMessage({ message: message, errorType: errorType });
+  // const handleNotification = (message, errorType) => {
+  //     setErrorMessage({ message: message, errorType: errorType })
 
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-  };
+  //     setTimeout(() => {
+  //         setErrorMessage(null)
+  //     }, 5000)
+  // }
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -50,10 +55,22 @@ const App = () => {
       setUsername('');
       setPassword('');
 
-      handleNotification('successfully log-in', 'success');
+      dispatch(
+        newNotification({
+          message: 'successfully log-in',
+          errorType: 'success',
+        })
+      );
+      //handleNotification('successfully log-in', 'success');
     } catch (exception) {
       console.log(exception);
-      handleNotification(exception.response.data.error, 'error');
+      //handleNotification(exception.response.data.error, 'error');
+      dispatch(
+        newNotification({
+          message: exception.response.data.error,
+          errorType: 'error',
+        })
+      );
       //handleNotification("wrong credentials", "error")
     }
   };
@@ -61,7 +78,13 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     window.localStorage.clear();
-    handleNotification('successfully log-out', 'success');
+    dispatch(
+      newNotification({
+        message: 'successfully log-out',
+        errorType: 'success',
+      })
+    );
+    //handleNotification('successfully log-out', 'success');
   };
 
   const blogFormRef = useRef();
@@ -73,13 +96,22 @@ const App = () => {
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog));
 
-        handleNotification(
-          `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
-          'success'
+        dispatch(
+          newNotification({
+            message: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
+            errorType: 'success',
+          })
         );
+        //handleNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, 'success');
       })
       .catch((exception) => {
-        handleNotification(exception.response.data.error, 'error');
+        dispatch(
+          newNotification({
+            message: exception.response.data.error,
+            errorType: 'error',
+          })
+        );
+        //handleNotification(exception.response.data.error, 'error');
       });
   };
 
@@ -90,7 +122,13 @@ const App = () => {
         setBlogs(blogs.map((b) => (b.id !== updatedBlog.id ? b : updatedBlog)));
       })
       .catch((exception) => {
-        handleNotification(exception.response.data.error, 'error');
+        dispatch(
+          newNotification({
+            message: exception.response.data.error,
+            errorType: 'error',
+          })
+        );
+        //handleNotification(exception.response.data.error, 'error');
       });
   };
 
@@ -105,10 +143,23 @@ const App = () => {
         .remove(blog.id)
         .then(() => {
           setBlogs(blogs.filter((obj) => obj.id !== blog.id));
-          handleNotification('blog successfully removed', 'success');
+          dispatch(
+            newNotification({
+              message: `blog successfully removed`,
+              errorType: 'success',
+            })
+          );
+          //handleNotification('blog successfully removed', 'success');
         })
         .catch((exception) => {
-          handleNotification(exception.response.data.error, 'error');
+          dispatch(
+            newNotification({
+              message: exception.response.data.error,
+              errorType: 'error',
+            })
+          );
+
+          //handleNotification(exception.response.data.error, 'error');
         });
     }
   };
@@ -116,7 +167,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notifiaction message={errorMessage} />
+      <Notifiaction />
       {user === null ? (
         <LoginForm
           handleSubmit={handleLogin}

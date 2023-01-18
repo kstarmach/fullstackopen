@@ -15,7 +15,7 @@ export const newNotification = (message) => {
     dispatch(setNotification(message));
 
     setTimeout(() => {
-      setNotification(null);
+      dispatch(setNotification(null));
     }, 5000);
   };
 };
