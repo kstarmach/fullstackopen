@@ -10,7 +10,9 @@ const blogSlice = createSlice({
       state.push(action.payload);
     },
     updateBlog(state, action) {
-      state.map((blog) => blog.id !== action.payload.id);
+      const updatedBlog = action.payload;
+      const { id } = updatedBlog;
+      return state.map((blog) => (blog.id !== id ? blog : updatedBlog));
     },
     removeBlog(state, action) {
       return state.filter((blog) => blog.id !== action.payload);
@@ -20,7 +22,8 @@ const blogSlice = createSlice({
     },
   },
 });
-const { appendBlog, setBlogs } = blogSlice.actions;
+
+const { appendBlog, setBlogs, removeBlog, updateBlog } = blogSlice.actions;
 
 export const initializeBlogs = () => {
   return async (dispatch) => {
@@ -35,6 +38,33 @@ export const createBlog = (blog) => {
     dispatch(
       newNotification({
         message: 'New Blog added',
+        errorType: 'success',
+      })
+    );
+  };
+};
+
+export const deleteBlog = (id) => {
+  return async (dispatch) => {
+    await blogService.remove(id);
+    dispatch(removeBlog(id));
+    dispatch(
+      newNotification({
+        message: 'Blog successfully deleted',
+        errorType: 'success',
+      })
+    );
+  };
+};
+
+export const likeBlog = (blogToUpdate) => {
+  return async (dispatch) => {
+    await blogService.update(blogToUpdate);
+    dispatch(updateBlog(blogToUpdate));
+
+    dispatch(
+      newNotification({
+        message: 'Blog successfully updated',
         errorType: 'success',
       })
     );
