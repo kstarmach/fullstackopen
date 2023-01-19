@@ -1,11 +1,13 @@
 import { useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import BlogList from './components/BlogList';
-import BlogForm from './components/BlogForm';
-import Togglable from './components/Togglable';
+import BlogDetails from './components/BlogDetails';
+import Users from './components/Users';
+import UserDetails from './components/UserDetails';
 import Notifiaction from './components/Notification';
-import LoggedUser from './components/LoggedUser';
+import Navbar from './components/NavBar';
 
 import { initializeBlogs } from './reducers/blogReducer';
 import { initializeLogin } from './reducers/loginReducer';
@@ -20,18 +22,17 @@ const App = () => {
     dispatch(initializeBlogs());
   }, []);
 
-  const blogFormRef = useRef();
-
   return (
     <div>
+      <Navbar />
       <Notifiaction />
-      <LoggedUser />
 
-      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <BlogForm />
-      </Togglable>
-
-      <BlogList />
+      <Routes>
+        <Route path="/" element={<BlogList />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<UserDetails />} />
+      </Routes>
     </div>
   );
 };

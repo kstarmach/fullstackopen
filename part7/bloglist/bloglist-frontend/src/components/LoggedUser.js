@@ -14,7 +14,6 @@ const LoggedUser = () => {
       ) : (
         <p>
           {user.name} logged in
-          <br />
           <button onClick={() => dispatch(logoutUser())}>logout</button>
         </p>
       )}

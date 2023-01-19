@@ -1,10 +1,14 @@
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
+import BlogForm from './BlogForm';
+import Togglable from './Togglable';
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
-  //const user = blog.user;
+
   const user = useSelector((state) => state.user);
+  //const blogFormRef = useRef();
 
   const handleDelete = (id) => {
     if (window.confirm(`Are you sure?`)) {
@@ -19,7 +23,9 @@ const Blog = ({ blog }) => {
 
   return (
     <tr>
-      <td>{blog.title} </td>
+      <td>
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>{' '}
+      </td>
       <td>{blog.author}</td>
       <td>{blog.likes}</td>
       <td>
@@ -38,20 +44,25 @@ const BlogList = () => {
   const blogs = useSelector((state) => state.blogs);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>tittle</th>
-          <th>author</th>
-          <th>likes</th>
-        </tr>
-      </thead>
-      <tbody>
-        {blogs.map((blog) => (
-          <Blog blog={blog} key={blog.id} />
-        ))}
-      </tbody>
-    </table>
+    <div>
+      <Togglable buttonLabel="create new blog">
+        <BlogForm />
+      </Togglable>
+      <table>
+        <thead>
+          <tr>
+            <th>tittle</th>
+            <th>author</th>
+            <th>likes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {blogs.map((blog) => (
+            <Blog blog={blog} key={blog.id} />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
