@@ -74,7 +74,6 @@ export const likeBlog = (blogToUpdate) => {
 export const commentBlog = (id, comment) => {
   return async (dispatch) => {
     const blogToUpdate = await blogService.commentBlog(id, comment);
-    console.log(blogToUpdate);
     dispatch(updateBlog(blogToUpdate));
 
     dispatch(

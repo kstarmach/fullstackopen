@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { likeBlog } from '../reducers/blogReducer';
 import Comments from './Comments';
-
+import { Button, Typography } from '@mui/material';
 const BlogDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -20,13 +20,23 @@ const BlogDetails = () => {
 
   return (
     <div>
-      <h2>{blog.title}</h2>
+      <Typography variant="h3" gutterBottom>
+        {blog.title}
+      </Typography>
       <a href={blog.url}>{blog.url}</a>
       <div>
         {blog.likes} likes{' '}
-        <button onClick={() => handleLike(blog)}> like</button>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={() => handleLike(blog)}
+        >
+          {' '}
+          like
+        </Button>
       </div>
-      <div>added by {blog.author}</div>
+      <div>added by {blog.user.username}</div>
       <Comments blog={blog} />
     </div>
   );

@@ -33,9 +33,8 @@ export const loginUser = ({ username, password }) => {
     });
 
     if (user) {
-      const userJson = JSON.stringify(user);
-      blogService.setToken(userJson.token);
-      window.localStorage.setItem('loggedBlogappUser', userJson);
+      blogService.setToken(user.token);
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
       dispatch(setLogin(user));
     }
 

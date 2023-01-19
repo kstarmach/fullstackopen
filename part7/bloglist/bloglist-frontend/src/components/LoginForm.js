@@ -1,11 +1,16 @@
-import { useDispatch } from 'react-redux';
+import { TextField } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useField } from '../hooks';
 import { loginUser } from '../reducers/loginReducer';
+import { Button } from '@mui/material';
 
 const LoginForm = () => {
-  const username = useField('text');
-  const password = useField('password');
+  const { reset: resetUsername, ...username } = useField('text');
+  const { reset: resetPassword, ...password } = useField('password');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.login);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -16,46 +21,33 @@ const LoginForm = () => {
     };
 
     dispatch(loginUser(user));
+    resetUsername();
+    resetPassword();
 
-    // try {
-    //   const user = await loginServices.login({
-    //     username.value,
-    //     password.value,
-    //   });
-    //   window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
-    //   blogService.setToken(user.token);
-
-    //   dispatch(
-    //     newNotification({
-    //       message: 'successfully log-in',
-    //       errorType: 'success',
-    //     })
-    //   );
-    // } catch (exception) {
-    //   dispatch(
-    //     newNotification({
-    //       message: exception.response.data.error,
-    //       errorType: 'error',
-    //     })
-    //   );
-    // }
+    navigate('/');
   };
 
+  if (user) {
+    return '';
+  }
   return (
     <div>
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
-          username
-          <input {...username} />
+          <TextField label="username" {...username} />
         </div>
         <div>
-          password
-          <input {...password} />
+          <TextField label="password" {...password} />
         </div>
-        <button type="submit" id="login-button">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          id="login-button"
+        >
           login
-        </button>
+        </Button>
       </form>
     </div>
   );

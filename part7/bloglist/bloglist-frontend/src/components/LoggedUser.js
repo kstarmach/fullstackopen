@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../reducers/loginReducer';
-import LoginForm from './LoginForm';
 
 const LoggedUser = () => {
   const dispatch = useDispatch();
@@ -10,7 +9,7 @@ const LoggedUser = () => {
   return (
     <div>
       {user === null ? (
-        <LoginForm />
+        ''
       ) : (
         <p>
           {user.name} logged in

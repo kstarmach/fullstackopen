@@ -1,3 +1,4 @@
+import { Button, TextField, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useField } from '../hooks';
 import { commentBlog } from '../reducers/blogReducer';
@@ -15,10 +16,14 @@ const Comments = ({ blog }) => {
 
   return (
     <div>
-      <h4>comments</h4>
+      <Typography variant="h4" gutterBottom>
+        comments
+      </Typography>
       <form onSubmit={handleComment}>
-        <input {...newComment} />
-        <button>add comment</button>
+        <TextField label="add comment" size="small" {...newComment} />
+        <Button variant="contained" color="primary" type="submit">
+          add comment
+        </Button>
       </form>
       <ul>
         {blog.comments.map((value, key) => (

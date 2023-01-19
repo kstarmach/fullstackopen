@@ -4,11 +4,21 @@ import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 import BlogForm from './BlogForm';
 import Togglable from './Togglable';
 
-const Blog = ({ blog }) => {
-  const dispatch = useDispatch();
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Container,
+  Paper,
+  Button,
+  TableHead,
+  Typography,
+} from '@mui/material';
 
-  const user = useSelector((state) => state.user);
-  //const blogFormRef = useRef();
+const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch();
 
   const handleDelete = (id) => {
     if (window.confirm(`Are you sure?`)) {
@@ -22,47 +32,70 @@ const Blog = ({ blog }) => {
   };
 
   return (
-    <tr>
-      <td>
+    <TableRow>
+      <TableCell>
         <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>{' '}
-      </td>
-      <td>{blog.author}</td>
-      <td>{blog.likes}</td>
-      <td>
-        <button onClick={() => handleLike(blog)}>like</button>
-        {blog.user === user ? (
-          <button onClick={() => handleDelete(blog.id)}>delete</button>
-        ) : (
+      </TableCell>
+      <TableCell>{blog.author}</TableCell>
+      <TableCell>{blog.likes}</TableCell>
+      <TableCell>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={() => handleLike(blog)}
+        >
+          like
+        </Button>
+        {blog.user.username !== user.username ? (
           ''
+        ) : (
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(blog.id)}
+          >
+            delete
+          </Button>
         )}
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 };
 
 const BlogList = () => {
   const blogs = useSelector((state) => state.blogs);
+  const user = useSelector((state) => state.login);
+
+  if (!user) return '';
 
   return (
-    <div>
+    <Container>
+      <Typography variant="h3" gutterBottom>
+        Blog list
+      </Typography>
       <Togglable buttonLabel="create new blog">
         <BlogForm />
       </Togglable>
-      <table>
-        <thead>
-          <tr>
-            <th>tittle</th>
-            <th>author</th>
-            <th>likes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {blogs.map((blog) => (
-            <Blog blog={blog} key={blog.id} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>tittle</TableCell>
+              <TableCell>author</TableCell>
+              <TableCell>likes</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {blogs.map((blog) => (
+              <Blog blog={blog} user={user} key={blog.id} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

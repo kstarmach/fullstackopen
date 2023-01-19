@@ -1,14 +1,12 @@
+import { TextField, Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useField } from '../hooks';
 import { createBlog } from '../reducers/blogReducer';
 
 const BlogForm = () => {
-  // const [title, setTitle] = useState('');
-  // const [author, setAuthor] = useState('');
-  // const [url, setUrl] = useState('');
-  const title = useField('text');
-  const author = useField('text');
-  const url = useField('text');
+  const { reset: resetTitle, ...title } = useField('text');
+  const { reset: resetAuthor, ...author } = useField('text');
+  const { reset: resetUrl, ...url } = useField('text');
 
   const dispatch = useDispatch();
 
@@ -22,6 +20,9 @@ const BlogForm = () => {
     };
 
     dispatch(createBlog(newBlog));
+    resetTitle();
+    resetAuthor();
+    resetUrl();
   };
 
   return (
@@ -29,20 +30,23 @@ const BlogForm = () => {
       <h2>create new</h2>
       <form onSubmit={addBlog}>
         <div>
-          title:
-          <input {...title} />
+          <TextField label="title" size="small" {...title} />
         </div>
         <div>
-          author:
-          <input {...author} />
+          <TextField label="author" size="small" {...author} />
         </div>
         <div>
-          url:
-          <input {...url} />
+          <TextField label="url" size="small" {...url} />
         </div>
-        <button type="submit" id="create_new_blog">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          size="small"
+          id="create_new_blog"
+        >
           create
-        </button>
+        </Button>
       </form>
     </div>
   );
