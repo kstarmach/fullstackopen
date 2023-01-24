@@ -30,7 +30,7 @@ mongoose
 const typeDefs = gql`
   type User {
     username: String!
-    favouriteGenre: String
+    favoriteGenre: String
     id: ID!
   }
 
@@ -70,7 +70,7 @@ const typeDefs = gql`
     ): Book!
     editAuthor(name: String!, setBornTo: Int!): Author
     addAuthor(name: String!, born: Int!): Author
-    createUser(username: String!, favouriteGenre: String!): User
+    createUser(username: String!, favoriteGenre: String): User
     login(username: String!, password: String!): Token
   }
 `
@@ -80,6 +80,7 @@ const resolvers = {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
+      console.log(args)
       if (args.author && args.genre) {
         const author = await Author.findOne({ name: args.author })
         return await Book.find({
@@ -96,7 +97,10 @@ const resolvers = {
       }
 
       if (args.genre) {
-        return books.filter((b) => b.genres.includes(args.genre))
+        return await Book.find({ genres: { $in: args.genre } }).populate(
+          'author',
+        )
+        //return books.filter((b) => b.genres.includes(args.genre))
       }
 
       return await Book.find({}).populate('author')
@@ -105,7 +109,7 @@ const resolvers = {
       return Author.find({})
     },
     me: (root, args, context) => {
-      console.log(context)
+      console.log(context.currentUser)
       return context.currentUser
     },
   },
@@ -175,7 +179,8 @@ const resolvers = {
       }
     },
     createUser: async (root, args) => {
-      const user = new User({ username: args.username })
+      console.log({ args })
+      const user = new User({ ...args })
 
       return user.save().catch((error) => {
         throw new UserInputError(error.message, {

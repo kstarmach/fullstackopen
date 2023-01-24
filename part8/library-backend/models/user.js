@@ -4,12 +4,11 @@ const schema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
     minlength: 3,
   },
-  favouriteGenre: {
+  favoriteGenre: {
     type: String,
-    require: true,
-    minlength: 3,
   },
 })
 
