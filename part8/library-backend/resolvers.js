@@ -16,7 +16,6 @@ const resolvers = {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
-      console.log(args)
       if (args.author && args.genre) {
         const author = await Author.findOne({ name: args.author })
         return await Book.find({
@@ -45,7 +44,6 @@ const resolvers = {
       return Author.find({})
     },
     me: (root, args, context) => {
-      console.log(context.currentUser)
       return context.currentUser
     },
   },
@@ -85,6 +83,7 @@ const resolvers = {
       }
 
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
+      console.log(book)
       return book
     },
     addAuthor: async (root, args, context) => {
@@ -124,7 +123,6 @@ const resolvers = {
       }
     },
     createUser: async (root, args) => {
-      console.log({ args })
       const user = new User({ ...args })
 
       return user.save().catch((error) => {

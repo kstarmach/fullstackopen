@@ -33,21 +33,10 @@ const App = () => {
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data, client }) => {
+      //console.log(data)
       const addedBook = data.data.bookAdded
       alert(`${addedBook.title} added`)
-
-      // client.writeQuery({
-      //   query: ALL_BOOKS,
-      //   data: {
-      //     allBooks: client
-      //       .readQuery({ query: ALL_BOOKS })
-      //       .allBooks.concat(addedBook),
-      //   },
-      // })
-
-      //updateCache(client.cache, { query: ALL_BOOKS }, addedBook)
-
-      //console.log(client.readQuery({ query: ALL_BOOKS }))
+      updateCache(client.cache, { query: ALL_BOOKS }, addedBook)
     },
   })
 
@@ -90,7 +79,7 @@ const App = () => {
 
       <Authors show={page === 'authors'} />
 
-      <Books show={page === 'books'} />
+      <Books show={page === 'books'} books={result.data.allBooks} />
 
       <NewBook show={page === 'add'} />
 
