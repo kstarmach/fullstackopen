@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { useState } from 'react'
-import { ALL_AUTHORS, EDIT_AUTHOR } from './queries'
+import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries'
 
 const UpdateAuthor = ({ authors }) => {
   const [name, setName] = useState('')

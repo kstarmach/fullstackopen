@@ -1,4 +1,4 @@
-import { CURRENT_USER, ALL_BOOKS } from './queries'
+import { CURRENT_USER, ALL_BOOKS } from '../queries'
 import { useQuery } from '@apollo/client'
 import Books from './Books'
 

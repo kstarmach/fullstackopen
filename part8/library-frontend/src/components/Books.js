@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import { useState, useEffect } from 'react'
-import { ALL_BOOKS } from './queries'
+import { ALL_BOOKS } from '../queries'
 
 let genres
 const GenreFilter = ({ books, setFilter }) => {
