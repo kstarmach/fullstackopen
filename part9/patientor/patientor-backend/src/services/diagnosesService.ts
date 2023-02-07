@@ -1,13 +1,18 @@
 import diagnosesData from '../../data/diagnoses.json';
 
-import { Diagnose } from '../types';
+import { Diagnosis } from '../types';
 
-const diagnoses: Array<Diagnose> = diagnosesData as Array<Diagnose>;
+const diagnoses: Array<Diagnosis> = diagnosesData as Array<Diagnosis>;
 
-const getAll = (): Array<Diagnose> => {
+const getAll = (): Array<Diagnosis> => {
     return diagnoses;
+};
+
+const getByCode = (code: any): Diagnosis | undefined => {
+    return diagnosesData.find(d => d.code === code)
 }
 
 export default {
+    getByCode,
     getAll
-}
+};
