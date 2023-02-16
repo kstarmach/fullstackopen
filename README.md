@@ -15,3 +15,8 @@ https://studies.cs.helsinki.fi/stats/api/certificate/fs-graphql/en/32994a8b3de65
 https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/058d1d5bc71db13d8052b72a0b9cf6c8
 
 ![certificate-typescript](https://user-images.githubusercontent.com/110173586/217116646-6009a126-7e13-4209-acff-593c1d465ed8.png)
+
+# React Native
+https://studies.cs.helsinki.fi/stats/api/certificate/fs-react-native-2020/en/1cb2d4322b14a07a13c6f376b6926c85
+
+![certificate-reactnative](https://user-images.githubusercontent.com/110173586/219374013-584444ea-4e1c-41d1-a355-9953ae6fafca.png)
