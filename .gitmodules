@@ -1,0 +1,6 @@
+[submodule "part10/part10/rate-repository-app"]
+	path = part10/part10/rate-repository-app
+	url = https://github.com/kstarmach/rate-repository-app.git
+[submodule "part10/rate-repository-app"]
+	path = part10/rate-repository-app
+	url = https://github.com/kstarmach/rate-repository-app.git
