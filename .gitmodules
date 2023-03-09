@@ -7,3 +7,6 @@
 [submodule "part11/full-stack-open-pokedex"]
 	path = part11/full-stack-open-pokedex
 	url = https://github.com/kstarmach/full-stack-open-pokedex.git
+[submodule "part12"]
+	path = part12
+	url = https://github.com/kstarmach/part12-containers-applications.git
