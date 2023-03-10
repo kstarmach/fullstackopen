@@ -10,3 +10,6 @@
 [submodule "part12"]
 	path = part12
 	url = https://github.com/kstarmach/part12-containers-applications.git
+[submodule "part12/part12-containers-applications"]
+	path = part12/part12-containers-applications
+	url = https://github.com/kstarmach/part12-containers-applications.git
