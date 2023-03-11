@@ -20,3 +20,10 @@ https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/058d1d5bc7
 https://studies.cs.helsinki.fi/stats/api/certificate/fs-react-native-2020/en/1cb2d4322b14a07a13c6f376b6926c85
 
 ![certificate-reactnative](https://user-images.githubusercontent.com/110173586/219374013-584444ea-4e1c-41d1-a355-9953ae6fafca.png)
+
+# CI / CD
+
+# Containers
+https://studies.cs.helsinki.fi/stats/api/certificate/fs-containers/en/0ff6005974e0c34edf6c5b80288f43e9
+
+![certificate-containers](https://user-images.githubusercontent.com/110173586/224490593-1ac7daaa-83af-4709-8935-2697bb88f867.png)
