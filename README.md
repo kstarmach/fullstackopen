@@ -22,8 +22,15 @@ https://studies.cs.helsinki.fi/stats/api/certificate/fs-react-native-2020/en/1cb
 ![certificate-reactnative](https://user-images.githubusercontent.com/110173586/219374013-584444ea-4e1c-41d1-a355-9953ae6fafca.png)
 
 # CI / CD
+*Didn't submit last exercise that require someone ***someone from the university*** to accept my `pull request` in my new project but its basicly finished*
 
 # Containers
 https://studies.cs.helsinki.fi/stats/api/certificate/fs-containers/en/0ff6005974e0c34edf6c5b80288f43e9
 
 ![certificate-containers](https://user-images.githubusercontent.com/110173586/224490593-1ac7daaa-83af-4709-8935-2697bb88f867.png)
+
+# Using relational databases
+https://studies.cs.helsinki.fi/stats/api/certificate/fs-psql/en/04c461c41d956265ab896d333efdc98b
+
+![certificate-psql](https://user-images.githubusercontent.com/110173586/226606296-00e6929d-1f5a-420c-8cd3-21cd077d05cd.png)
+
